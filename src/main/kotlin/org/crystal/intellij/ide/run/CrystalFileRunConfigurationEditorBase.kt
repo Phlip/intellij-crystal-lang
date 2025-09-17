@@ -59,7 +59,7 @@ abstract class CrystalFileRunConfigurationEditorBase<C : CrystalFileRunConfigura
 
     protected fun Panel.addFileToRun() {
         row("Target file: ") {
-            targetFileEditor = textFieldWithBrowseButton(null, null, fileChooserDescriptor())
+            targetFileEditor = textFieldWithBrowseButton(fileChooserDescriptor(), project = null) // TODO: i really dont know what it does
                 .resizableColumn()
                 .align(AlignX.FILL)
                 .component
@@ -91,7 +91,9 @@ abstract class CrystalFileRunConfigurationEditorBase<C : CrystalFileRunConfigura
                 if (files.isEmpty()) return
                 val path = StandardFileSystems.local().getNioPath(files.first()) ?: return
                 if (!(path.exists() && path.isRegularFile() && path.extension == "cr")) {
-                    throw Exception(CrystalBundle.message("settings.sdk.invalid.interpreter.name.0", path.name))
+                    throw Exception(CrystalBundle.message("settings.sdk.invalid.interpreter.name.0", path.name)).also {
+                        println(it.printStackTrace())
+                    }
                 }
             }
         }.withTitle(CrystalBundle.message("run.select.file"))

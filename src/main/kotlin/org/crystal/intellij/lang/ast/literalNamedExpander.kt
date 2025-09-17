@@ -31,12 +31,12 @@ class CstLiteralNamedExpander(resolveFacade: CrResolveFacade) : CstLiteralExpand
 
         val exps = ArrayList<CstNode<*>>(elements.size + elemTempVars.size + 2)
 
-        elemTempVars.keys.iterator().forEachRemaining { i ->
+        elemTempVars.keys.iterator().forEachRemaining(java.util.function.IntConsumer { i ->
             val elemTempVar = elemTempVars[i]
             var elemExp = elements[i]
             if (elemExp is CstSplat) elemExp = elemExp.expression
             exps += CstAssign(elemTempVar, elemExp, location = elemTempVar.location)
-        }
+        })
         exps += CstAssign(aryVar, constructor, loc)
 
         for ((i, elem) in elements.withIndex()) {
@@ -106,16 +106,16 @@ class CstLiteralNamedExpander(resolveFacade: CrResolveFacade) : CstLiteralExpand
         val hashVar = resolveCache.newTempVar()
 
         val exps = ArrayList<CstNode<*>>(entries.size + keyTempVars.size + valueTempVars.size + 2)
-        keyTempVars.keys.iterator().forEachRemaining { i ->
+        keyTempVars.keys.iterator().forEachRemaining(java.util.function.IntConsumer { i ->
             val keyTempVar = keyTempVars[i]
             val keyExp = entries[i].key
             exps += CstAssign(keyTempVar, keyExp, keyTempVar.location)
-        }
-        valueTempVars.keys.iterator().forEachRemaining { i ->
+        })
+        valueTempVars.keys.iterator().forEachRemaining(java.util.function.IntConsumer { i ->
             val valueTempVar = valueTempVars[i]
             val valueExp = entries[i].value
             exps += CstAssign(valueTempVar, valueExp, valueTempVar.location)
-        }
+        })
         exps += CstAssign(hashVar, constructor, loc)
 
         for ((i, entry) in entries.withIndex()) {

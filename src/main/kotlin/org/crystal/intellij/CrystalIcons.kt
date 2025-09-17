@@ -15,6 +15,7 @@ object CrystalIcons {
     val ANNOTATION = PlatformIcons.ANNOTATION_TYPE_ICON!!
     val CFIELD = AllIcons.Nodes.Field
     val CLASS = PlatformIcons.CLASS_ICON!!
+    val INSTANCE_VARIABLE = load("instanceVariable")
     val CLASS_VARIABLE = LayeredIcon(2).apply {
         setIcon(INSTANCE_VARIABLE, 0)
         setIcon(AllIcons.Nodes.StaticMark, 1)
@@ -24,7 +25,6 @@ object CrystalIcons {
     val FUNCTION = PlatformIcons.FUNCTION_ICON!!
     val GLOBAL_VARIABLE = AllIcons.Nodes.Gvariable
     val INCLUDER = AllIcons.Gutter.ImplementedMethod
-    val INSTANCE_VARIABLE = load("instanceVariable")
     val LANGUAGE = load("language")
     val LIBRARY = load("library")
     val MACRO = load("macro")

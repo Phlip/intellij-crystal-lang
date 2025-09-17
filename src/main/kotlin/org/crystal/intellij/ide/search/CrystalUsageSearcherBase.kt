@@ -11,7 +11,7 @@ import org.crystal.intellij.lang.psi.CrPathNameElement
 import org.crystal.intellij.lang.references.CrPathReference
 
 @Suppress("UnstableApiUsage")
-abstract class CrystalUsageSearcherBase<U, P : SearchParameters<U>> {
+abstract class CrystalUsageSearcherBase<U : Any, P : SearchParameters<U>> {
     protected fun buildQuery(parameters: P): Query<out U>? {
         val target = getTarget(parameters) ?: return null
         val project = parameters.project
@@ -23,7 +23,11 @@ abstract class CrystalUsageSearcherBase<U, P : SearchParameters<U>> {
             .inScope(searchScope)
             .inFilesWithLanguage(CrystalLanguage)
             .inContexts(SearchContext.IN_CODE)
-            .buildQuery(LeafOccurrenceMapper.withPointer(targetPointer, ::toUsages))
+            .buildQuery(
+                LeafOccurrenceMapper.withPointer(targetPointer) {
+                    t, occurrence -> toUsages(t, occurrence)
+                }
+            )
     }
 
     protected abstract fun getTarget(parameters: P): CrystalConstantLikeSearchRenameTarget?

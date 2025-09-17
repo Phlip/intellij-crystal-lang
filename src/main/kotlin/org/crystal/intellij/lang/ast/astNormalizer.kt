@@ -102,13 +102,13 @@ class CstNormalizer(
         val nextUnpacks = ArrayDeque<Pair<String, CstExpressions>>()
 
         val unpackVars = Int2ObjectOpenHashMap<CstVar>(unpacks.size)
-        unpacks.keys.intIterator().forEachRemaining { index ->
+        unpacks.keys.intIterator().forEachRemaining(java.util.function.IntConsumer { index ->
             val expressions = unpacks.get(index)
             val tempName = resolveCache.newTempVarName()
             val tempVar = CstVar(tempName, node.args[index].location)
             unpackVars.put(index, tempVar)
             extraExpressions += blockUnpackMultiAssign(tempName, expressions, nextUnpacks)
-        }
+        })
 
         while (nextUnpacks.isNotEmpty()) {
             val (varName, expressions) = nextUnpacks.removeFirst()

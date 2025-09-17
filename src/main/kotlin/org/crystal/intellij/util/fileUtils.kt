@@ -1,10 +1,10 @@
 package org.crystal.intellij.util
 
-import com.intellij.util.io.isFile
 import java.nio.file.InvalidPathException
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.exists
+import kotlin.io.path.isRegularFile
 
 private val emptyPath: Path = Path.of("")
 
@@ -17,4 +17,4 @@ fun String.toPathOrNull() = try {
 fun String.toPathOrEmpty() = toPathOrNull() ?: emptyPath
 
 val Path.isValidFile: Boolean
-    get() = exists() && isFile()
+    get() = exists() && isRegularFile()

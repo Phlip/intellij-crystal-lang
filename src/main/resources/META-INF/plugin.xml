@@ -129,7 +129,6 @@
         <typeHierarchyProvider language="Crystal"
                                implementationClass="org.crystal.intellij.ide.hierarchy.types.CrystalTypeHierarchyProvider"/>
 
-        <lang.codeReferenceSearcher implementation="org.crystal.intellij.ide.search.CrystalCodeReferenceSearcher"/>
 
         <searcher forClass="com.intellij.find.usages.api.UsageSearchParameters"
                   implementationClass="org.crystal.intellij.ide.findUsages.CrystalUsageSearcher"/>

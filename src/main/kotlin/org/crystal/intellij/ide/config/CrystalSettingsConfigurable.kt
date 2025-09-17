@@ -59,7 +59,7 @@ class CrystalSettingsConfigurable(private val project: Project) : BoundConfigura
                 mainFileEditor = textFieldWithBrowseButton(
                     CrystalBundle.message("settings.select.main.path"),
                     project,
-                    mainFileChooserDescriptor
+//                    mainFileChooserDescriptor
                 ) { file -> file.presentableUrl }
                     .bindText(settings::mainFilePath)
                     .resizableColumn()

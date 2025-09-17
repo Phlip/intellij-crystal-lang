@@ -22,6 +22,7 @@ import com.intellij.ui.components.fields.ExtendableTextField
 import org.crystal.intellij.CrystalBundle
 import org.crystal.intellij.lang.sdk.CrystalToolPeer
 import org.crystal.intellij.lang.sdk.isValidCompilerPath
+import org.crystal.intellij.lang.sdk.isValidShardsPath
 import org.crystal.intellij.util.addTextChangeListener
 import org.crystal.intellij.util.toPathOrNull
 import java.awt.event.ItemEvent
@@ -74,8 +75,12 @@ class CrystalToolPathComboBox : ComponentWithBrowseButton<ComboBoxWithWidePopup<
                 override fun validateSelectedFiles(files: Array<VirtualFile>) {
                     if (files.isEmpty()) return
                     val path = StandardFileSystems.local().getNioPath(files.first()) ?: return
-                    if (!path.isValidCompilerPath) {
-                        throw Exception(CrystalBundle.message("settings.sdk.invalid.interpreter.name.0", path.name))
+                    // TODO: add dynamic validation
+                    if (!(path.isValidShardsPath || path.isValidCompilerPath)) { // TODO:it is cant be only one tool entity
+                        // TODO: add invalid shards path message
+                        throw Exception(CrystalBundle.message("settings.sdk.invalid.interpreter.name.0", path.name)).also {
+                            println(it.printStackTrace())
+                        }
                     }
                 }
             }.withTitle(CrystalBundle.message("settings.sdk.select.home.path")).withShowHiddenFiles(SystemInfo.isUnix)

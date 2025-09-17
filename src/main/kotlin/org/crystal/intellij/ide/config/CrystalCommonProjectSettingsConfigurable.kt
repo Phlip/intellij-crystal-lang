@@ -9,6 +9,7 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.JBColor
 import com.intellij.ui.dsl.builder.*
+import com.intellij.ui.dsl.listCellRenderer.textListCellRenderer
 import com.intellij.util.text.SemVer
 import org.crystal.intellij.CrystalBundle
 import org.crystal.intellij.ide.config.ui.CrystalToolPathComboBox
@@ -80,16 +81,18 @@ class CrystalCommonProjectSettingsConfigurable(
 
     private fun onCompilerPathSelection() {
         val compilerPath = compilerComboBox.selectedPath
+        println(compilerPath)
         val stdlibPath = compilerPath?.let { suggestStdlibPath(compilerPath) }
+        println(stdlibPath)
         stdlibEditor.text = stdlibPath?.toString() ?: ""
     }
 
     override fun createPanel() = panel {
         group(CrystalBundle.message("settings.group.compiler")) {
             row(CrystalBundle.message("settings.language.level")) {
-                languageVersionComboBox = comboBox(
+                languageVersionComboBox = comboBox<CrystalVersion>(
                     DefaultComboBoxModel(CrystalVersion.allVersions.toTypedArray()),
-                    listCellRenderer<CrystalVersion> { setText(it.description) }
+                    renderer = textListCellRenderer { it?.description ?: "" }
                 ).bindItem(settings::languageVersion.toNullableProperty()).component
             }
 
@@ -100,10 +103,11 @@ class CrystalCommonProjectSettingsConfigurable(
                     .component
                 compilerComboBox.addTextChangeListener {
                     onCompilerPathUpdate()
-                }
-                compilerComboBox.addSelectPathListener {
                     onCompilerPathSelection()
                 }
+//                compilerComboBox.addSelectPathListener {
+//                    onCompilerPathSelection() // TODO: it is doesnt work
+//                }
             }
 
             row(CrystalBundle.message("settings.crystal.version")) {
@@ -115,10 +119,12 @@ class CrystalCommonProjectSettingsConfigurable(
         group(CrystalBundle.message("settings.group.stdlib")) {
             row(CrystalBundle.message("settings.crystal.stdlib.path")) {
                 stdlibEditor = textFieldWithBrowseButton(
-                    CrystalBundle.message("settings.sdk.select.stdlib.path"),
+                    browseDialogTitle = CrystalBundle.message("settings.sdk.select.stdlib.path"),
                     project,
-                    STDLIB_FILE_CHOOSER_DESCRIPTOR
-                ) { file -> file.presentableUrl }
+//                    fileChooserDescriptor = STDLIB_FILE_CHOOSER_DESCRIPTOR
+                ) { file ->
+                    file.presentableUrl
+                }
                     .bindText(workspaceSettings::stdlibPath)
                     .resizableColumn()
                     .align(AlignX.FILL)
