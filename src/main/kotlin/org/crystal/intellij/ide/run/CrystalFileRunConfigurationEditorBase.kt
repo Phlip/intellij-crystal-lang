@@ -59,7 +59,9 @@ abstract class CrystalFileRunConfigurationEditorBase<C : CrystalFileRunConfigura
 
     protected fun Panel.addFileToRun() {
         row("Target file: ") {
-            targetFileEditor = textFieldWithBrowseButton(fileChooserDescriptor(), project = null) // TODO: i really dont know what it does
+            targetFileEditor = textFieldWithBrowseButton(
+                fileChooserDescriptor = fileChooserDescriptor()
+            )
                 .resizableColumn()
                 .align(AlignX.FILL)
                 .component

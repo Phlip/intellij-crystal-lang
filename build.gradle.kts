@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
-    id("org.jetbrains.intellij.platform") version "2.9.0"
-    java
-    kotlin("jvm") version "2.2.20"
+    id("org.jetbrains.intellij.platform") version "2.11.0"
+    kotlin("jvm") version "1.9.24"
 }
 
 group = "org.crystal.intellij"
@@ -30,17 +30,20 @@ java {
 dependencies {
     intellijPlatform {
         bundledPlugin("org.jetbrains.plugins.yaml")
-        intellijIdeaCommunity("2025.2.1")
+        androidStudio("2024.2.1.11") // Ladybug stable
+        testFramework(TestFrameworkType.Platform)
     }
 
     implementation(kotlin("stdlib-jdk7"))
     implementation(kotlin("reflect"))
     testImplementation("junit", "junit", "4.12")
+    testImplementation(kotlin("test"))
+    testRuntimeOnly("org.opentest4j:opentest4j:1.3.0")
 }
 
 intellijPlatform {
     pluginConfiguration {
-        version = project.properties["version"] as String
+        version = project.properties["version"]?.toString() ?: "1.0.0"
     }
 }
 
