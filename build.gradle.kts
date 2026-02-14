@@ -19,7 +19,9 @@ repositories {
 
 sourceSets {
     main {
-        java.srcDir("src/main/gen")
+        java {
+            srcDirs("src/main/java", "src/main/gen")
+        }
     }
 }
 

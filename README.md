@@ -5,3 +5,5 @@
 This was an IntelliJ plugin for Crystal language (https://crystal-lang.org/).
 
 This current branch is for radical experiments that undermine favored features in Intellij Idea. We will publish any discoveries into clean branches for pull-requesting.
+
+we require a valid JAVA_HOME environment variable to run gradle.

@@ -3,7 +3,7 @@ require "rake"
 GRADLEW = "./gradlew"
 
 def gradle(cmd)
-  sh "#{GRADLEW} #{cmd} --info --stacktrace"
+  sh "#{GRADLEW} #{cmd} --info --stacktrace --rerun-tasks"
 end
 
 desc "Run all Gradle unit tests (verbose)"
